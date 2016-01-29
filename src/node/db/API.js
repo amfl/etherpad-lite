@@ -1094,7 +1094,23 @@ exports.listAuthorsOfPad = function(padID, callback)
   {
     if(ERR(err, callback)) return;
     
-    callback(null, {authorIDs: pad.getAllAuthors()});
+    var result = []
+    async.forEach(pad.getAllAuthors(), function(authorid, callback) {
+
+      // Get the color of each author.
+      authorManager.getAuthor(authorid, function(err, author) {
+        if(ERR(err, callback)) return;
+
+        author.id = authorid;
+        result.push(author);
+        callback();
+      });
+    }, function(err) {
+      if(ERR(err, callback)) return;
+
+      // callback(null, {authorIDs: pad.getAllAuthors()});
+      callback(null, {authorIDs: result});
+    });
   });
 }
 
