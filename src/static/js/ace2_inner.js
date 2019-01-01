@@ -2503,6 +2503,13 @@ function Ace2Inner(){
     //var newTotalLength = rep.alltext.length;
     //rep.lexer.updateBuffer(rep.alltext, oldRegionStart, oldRegionEnd - oldRegionStart,
     //newRegionEnd - oldRegionStart);
+
+    hooks.callAll("lineChanged",
+    {
+      startLine: startLine,
+      deleteCount: deleteCount,
+      newLineEntries: newLineEntries
+    });
   }
 
   function doIncorpLineSplice(startLine, deleteCount, newLineEntries, lineAttribs, hints)
